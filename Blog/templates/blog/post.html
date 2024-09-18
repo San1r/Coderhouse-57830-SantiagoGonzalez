@@ -1,0 +1,61 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block main %}
+<div style="margin-bottom: 30px;">
+    <!-- Mostrar el título del post -->
+    <h1 style="font-family: 'Georgia', serif; color: #333; margin-bottom: 10px;">{{ post.title }}</h1>
+
+    <!-- Mostrar la primera imagen del post -->
+    {% if post.images.exists %}
+        <div style="margin-bottom: 20px;">
+            {% with post.images.first as first_image %}
+                <img src="{{ first_image.image.url }}" alt="Imagen del post" style="width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 8px;" />
+            {% endwith %}
+        </div>
+    {% endif %}
+
+    <p style="font-size: 1.1em; color: #555;">{{ post.content }}</p>
+    <p><small style="font-size: 0.9em; color: #888;">Publicado el {{ post.published_date|date:"F j, Y" }} por {{ post.author.username }}</small></p>
+
+    <h2 style="font-family: 'Georgia', serif; color: #333; margin-top: 20px;">Comentarios</h2>
+    <ul style="list-style: none; padding: 0;">
+        {% for comment in comments %}
+            <li style="margin-bottom: 15px;">
+                <strong>{{ comment.user.username }}</strong>: {{ comment.content }} ({{ comment.created_date|date:"F j, Y H:i" }})
+            </li>
+        {% empty %}
+            <li>No hay comentarios aún.</li>
+        {% endfor %}
+    </ul>
+
+    {% if comment_form %}
+        <h3 style="font-family: 'Georgia', serif; color: #333; margin-top: 20px;">Deja un comentario</h3>
+        <form method="post" style="margin-top: 10px;">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" style="padding: 10px 20px; font-size: 1rem; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Enviar comentario
+            </button>
+        </form>
+    {% endif %}
+
+    <a href="{% url 'home' %}" style="display: inline-block; margin-top: 20px; font-size: 1rem; color: #007bff; text-decoration: none;">
+        Volver a la lista de posts
+    </a>
+
+    {% if user.is_authenticated %}
+        {% if user == post.author %}
+            <div style="margin-top: 20px;">
+                <a href="{% url 'edit_post' post_id=post.id %}" style="margin-right: 15px; font-size: 1rem; color: #007bff; text-decoration: none;">
+                    Editar post
+                </a>
+                <a href="{% url 'upload_image' post_id=post.id %}" style="font-size: 1rem; color: #007bff; text-decoration: none;">
+                    Subir una imagen
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

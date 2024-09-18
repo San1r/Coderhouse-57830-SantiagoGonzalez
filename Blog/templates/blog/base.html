@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Blog{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .post-preview {
+            margin-bottom: 2rem;
+        }
+        .post-preview h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .post-preview h3 {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            color: #555;
+        }
+        .post-preview p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                Hola, {{ user.username }}!
+                {% if avatar and avatar.imagen %}
+                    <img src="{{ avatar.imagen.url }}" alt="Foto de perfil" class="profile-pic">
+                {% else %}
+                    <img src="/media/avatar/default_profile_pic.png" alt="Foto de perfil" class="profile-pic">
+                {% endif %}
+            {% endif %}
+        </div>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'posting' %}">Crear Post</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar sesión</a>
+                <a href="{% url 'signup' %}">Registrarse</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <div style="background-color: #333; color: white; text-align: center; padding: 1rem;">
+            <p>
+                &copy; 2024 <a href="{% url 'about' %}" style="color: #007bff; text-decoration: none;">Mi Blog</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

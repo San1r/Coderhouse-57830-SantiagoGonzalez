@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block main %}
+<div style="display: flex; justify-content: space-between; padding: 20px;">
+    <!-- Buscador en una columna -->
+    <div style="flex: 1; max-width: 300px; padding-right: 20px;">
+        <h2 style="font-family: 'Georgia', serif; color: #333;">Buscar Posts</h2>
+        <form method="get" action="{% url 'home' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding: 10px 20px; font-size: 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+                Buscar
+            </button>
+        </form>
+    </div>
+
+    <!-- Contenido de los posts en otra columna -->
+    <div style="flex: 3;">
+        <h1 style="font-family: 'Georgia', serif; color: #333;">Bienvenido a Mi Blog</h1>
+        <div class="post-preview">
+            {% for post in posts %}
+                <div class="post-preview-item" style="margin-bottom: 20px;">
+                    <h2 class="post-title" style="font-family: 'Georgia', serif; color: #333; margin-bottom: 5px;">
+                        <a href="{% url 'post' post_id=post.id %}" style="text-decoration: none; color: inherit;">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    {% if post.subtitle %}
+                        <h3 class="post-subtitle" style="font-family: 'Arial', sans-serif; font-size: 1.2em; color: #666; text-decoration: none; margin-bottom: 0;">
+                            {{ post.subtitle }}
+                        </h3>
+                    {% endif %}
+                    <p class="post-meta" style="font-size: 0.9em; color: #888;">
+                        Posted by {{ post.author.username }} on {{ post.published_date|date:"F j, Y" }}
+                    </p>
+                </div>
+            {% empty %}
+                <p>No hay posts disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
