@@ -1,6 +1,5 @@
 # Coderhouse-57830-SantiagoGonzalez
 
-
 # Blog Santiago Gonzalez 57830
 
 ## Instalación
@@ -62,3 +61,28 @@
 ## Gestión de Imágenes de Perfil
 
 - Para gestionar la imagen de perfil, debes hacerlo a través del panel de administración utilizando el superusuario creado.
+
+## Permisos de los Usuarios Registrados
+
+- **Pueden:**
+  - Crear, editar y eliminar sus propios posts.
+  - Agregar comentarios a los posts.
+  - Ver posts y comentarios.
+  - Modificar su propia imagen de perfil desde el panel de administración.
+
+- **No pueden:**
+  - Crear o editar posts de otros usuarios.
+  - Eliminar comentarios de otros usuarios.
+  - Modificar la imagen de perfil de otros usuarios.
+
+## Permisos de los Usuarios No Registrados
+
+- **Pueden:**
+  - Ver posts y comentarios.
+
+- **No pueden:**
+  - Crear, editar o eliminar posts.
+  - Comentar en posts.
+  - Modificar o gestionar imágenes de perfil.
+  - Acceder a funciones administrativas o de gestión de contenido.
+
